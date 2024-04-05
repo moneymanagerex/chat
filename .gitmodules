@@ -1,3 +1,6 @@
 [submodule "source_documents/moneymanagerex.github.io"]
 	path = source_documents/moneymanagerex.github.io
 	url = git@github.com:moneymanagerex/moneymanagerex.github.io.git
+[submodule "source_documents/moneymanagerex"]
+	path = source_documents/moneymanagerex
+	url = git@github.com:moneymanagerex/moneymanagerex.git

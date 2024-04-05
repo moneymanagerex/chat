@@ -14,11 +14,13 @@ source_directory = os.environ.get('SOURCE_DIRECTORY', 'source_documents')
 chunk_size = 5000
 chunk_overlap = 50
 
-loader = DirectoryLoader(source_directory, glob="**/*.md")
+loaders = [DirectoryLoader(source_directory, glob="**/*.md", show_progress=True) ,DirectoryLoader(source_directory, glob="**/*.html", show_progress=True)]
 
-data = loader.load()
+docs = []
+for loader in loaders:
+    docs.extend(loader.load())
 
-docs_transformed = [doc for doc in data if len(doc.page_content) > 10]
+docs_transformed = [doc for doc in docs if len(doc.page_content) > 10]
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size = chunk_size, chunk_overlap = chunk_overlap)
 all_splits = text_splitter.split_documents(docs_transformed)
