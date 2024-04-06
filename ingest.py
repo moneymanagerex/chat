@@ -14,7 +14,7 @@ source_directory = os.environ.get('SOURCE_DIRECTORY', 'source_documents')
 chunk_size = 5000
 chunk_overlap = 50
 
-loaders = [DirectoryLoader(source_directory, glob="**/*.md", show_progress=True) ,DirectoryLoader(source_directory, glob="**/*.html", show_progress=True)]
+loaders = [DirectoryLoader(source_directory, glob="**/*.md", show_progress=True) ,DirectoryLoader(source_directory + "/moneymanagerex/docs/en_US/", glob="**/*.html", show_progress=True)]
 
 docs = []
 for loader in loaders:
