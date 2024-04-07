@@ -5,7 +5,6 @@ import lancedb
 
 from langchain_community.llms import Ollama
 from langchain_community.embeddings import OllamaEmbeddings
-from langchain_community.vectorstores import Chroma
 from langchain_community.vectorstores import LanceDB
 from langchain.chains import RetrievalQA
 
@@ -23,7 +22,15 @@ oembed = OllamaEmbeddings(base_url="http://localhost:11434", model=embeddings_mo
 vectorstore = LanceDB(table, embedding=oembed)
 
 from langchain.chains import RetrievalQA
-qachain=RetrievalQA.from_chain_type(ollama, chain_type="stuff", retriever=vectorstore.as_retriever(), return_source_documents = True)
+from langchain.retrievers.multi_query import MultiQueryRetriever
+# Set logging for the queries
+import logging
+
+logging.basicConfig()
+logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
+
+retriever = MultiQueryRetriever.from_llm(retriever=vectorstore.as_retriever(), llm=ollama, include_original = True)
+qachain=RetrievalQA.from_chain_type(ollama, chain_type="stuff", retriever=retriever, return_source_documents = True)
 
 while True:
     user_input = input("Enter a question: ")
