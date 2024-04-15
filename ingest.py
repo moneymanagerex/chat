@@ -11,7 +11,7 @@ from langchain_community.vectorstores import LanceDB
 # Load environment variables
 embeddings_model_name = os.environ.get('EMBEDDINGS_MODEL_NAME', 'nomic-embed-text')
 source_directory = os.environ.get('SOURCE_DIRECTORY', 'source_documents')
-chunk_size = 5000
+chunk_size = 1000
 chunk_overlap = 50
 
 loaders = [DirectoryLoader(source_directory, glob="**/*.md", show_progress=True) ,DirectoryLoader(source_directory + "/moneymanagerex/docs/en_US/", glob="**/*.html", show_progress=True)]

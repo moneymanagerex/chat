@@ -30,8 +30,12 @@ import logging
 logging.basicConfig()
 logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
 
+# https://smith.langchain.com/hub/rlm/rag-prompt
 retrieval_qa_chat_prompt = ChatPromptTemplate.from_messages(
-    [("system", "Answer any use questions based solely on the context below:\n\n{context}")]
+    [("system", """You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.
+Question: {input}
+Context: {context}
+Answer:""")]
 )
 combine_docs_chain = create_stuff_documents_chain(ollama, retrieval_qa_chat_prompt)
 
@@ -44,6 +48,8 @@ while True:
         exit()
 
     result = (qachain.invoke({"input": user_input}))
+    for context in result['context']:
+        print(context.page_content)
 
     # Print the result
     print("\n\n> Question:")
