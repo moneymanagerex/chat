@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 
 import os
-import lancedb
+import duckdb 
 from langchain_community.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import OllamaEmbeddings
-from langchain_community.vectorstores import LanceDB
+from langchain_community.vectorstores import DuckDB
 
 
 # Load environment variables
 embeddings_model_name = os.environ.get('EMBEDDINGS_MODEL_NAME', 'nomic-embed-text')
 source_directory = os.environ.get('SOURCE_DIRECTORY', 'source_documents')
-chunk_size = 1000
+chunk_size = 500
 chunk_overlap = 50
 
 loaders = [DirectoryLoader(source_directory, glob="**/*.md", show_progress=True) ,DirectoryLoader(source_directory + "/moneymanagerex/docs/en_US/", glob="**/*.html", show_progress=True)]
@@ -28,5 +28,10 @@ all_splits = text_splitter.split_documents(docs_transformed)
 print("# docs  = %d, # splits = %d" % (len(docs_transformed), len(all_splits)))
 
 oembed = OllamaEmbeddings(base_url="http://localhost:11434", model=embeddings_model_name)
-vectorstore = LanceDB.from_documents(documents=all_splits, embedding=oembed)
 
+conn = duckdb.connect(database='./db/duck.db',
+    config={
+        }
+)
+vectorstore = DuckDB(connection=conn, embedding=oembed)
+vectorstore.add_documents(all_splits)

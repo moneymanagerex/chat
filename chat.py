@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 import os
-import lancedb
+import duckdb
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.llms import Ollama
 from langchain_community.embeddings import OllamaEmbeddings
-from langchain_community.vectorstores import LanceDB
+from langchain_community.vectorstores import DuckDB
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 
@@ -16,12 +16,12 @@ model = os.environ.get("MODEL", "gemma:7b")
 
 ollama = Ollama(base_url='http://localhost:11434', model=model)
 
-# default 
-db = lancedb.connect("/tmp/lancedb/")
-table = db.open_table('vectorstore')
-
 oembed = OllamaEmbeddings(base_url="http://localhost:11434", model=embeddings_model_name)
-vectorstore = LanceDB(table, embedding=oembed)
+conn = duckdb.connect(database='./db/duck.db',
+    config={
+        }
+)
+vectorstore = DuckDB(connection=conn, embedding=oembed)
 
 from langchain.retrievers.multi_query import MultiQueryRetriever
 # Set logging for the queries
@@ -48,8 +48,6 @@ while True:
         exit()
 
     result = (qachain.invoke({"input": user_input}))
-    for context in result['context']:
-        print(context.page_content)
 
     # Print the result
     print("\n\n> Question:")
