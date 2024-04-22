@@ -12,7 +12,7 @@ from langchain.chains import create_retrieval_chain
 
 # Load environment variables
 embeddings_model_name = os.environ.get('EMBEDDINGS_MODEL_NAME', 'nomic-embed-text')
-model = os.environ.get("MODEL", "gemma:7b")
+model = os.environ.get("MODEL", "llama3:8b")
 
 ollama = Ollama(base_url='http://localhost:11434', model=model)
 
