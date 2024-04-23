@@ -30,6 +30,8 @@ import logging
 logging.basicConfig()
 logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
 
+retriever = MultiQueryRetriever.from_llm(retriever=vectorstore.as_retriever(), llm=ollama, include_original = True)
+
 # https://smith.langchain.com/hub/rlm/rag-prompt
 retrieval_qa_chat_prompt = ChatPromptTemplate.from_messages(
     [("system", """You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.
@@ -39,7 +41,6 @@ Answer:""")]
 )
 combine_docs_chain = create_stuff_documents_chain(ollama, retrieval_qa_chat_prompt)
 
-retriever = MultiQueryRetriever.from_llm(retriever=vectorstore.as_retriever(), llm=ollama, include_original = True)
 qachain = create_retrieval_chain(retriever, combine_docs_chain)
 
 while True:
