@@ -4,7 +4,7 @@ import os
 import duckdb
 
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_community.llms import Ollama
+from langchain_community.chat_models import ChatOllama
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import DuckDB
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -14,7 +14,7 @@ from langchain.chains import create_retrieval_chain
 embeddings_model_name = os.environ.get('EMBEDDINGS_MODEL_NAME', 'nomic-embed-text')
 model = os.environ.get("MODEL", "llama3:8b")
 
-ollama = Ollama(base_url='http://localhost:11434', model=model)
+ollama = ChatOllama(base_url='http://localhost:11434', model=model)
 
 oembed = OllamaEmbeddings(base_url="http://localhost:11434", model=embeddings_model_name)
 conn = duckdb.connect(database='./db/duck.db',
@@ -48,11 +48,12 @@ while True:
     if not user_input:
         exit()
 
+    print("\n")
     result = (qachain.invoke({"input": user_input}))
 
     # Print the result
     print("\n\n> Question:")
     print(user_input)
-    print("\n")
+    print("\n\n> Answer:")
     print(result['answer'])
     print("\n\n")
