@@ -5,10 +5,12 @@ This is inspired by [PrivateGPT](here](https://github.com/imartinez/privateGPT),
 The goal is to build a high-quality QA and assistant system around public and private data
 
 ### Document sources
-so far, all data is
+so far, all data source includes:
 * MMEX [homesite repo](https://github.com/moneymanagerex/moneymanagerex.github.io)
-* MMEX for [Desktop repo](https://github.com/moneymanagerex/moneymanagerex)
-* MMEX for [Android repo](https://github.com/moneymanagerex/android-money-manager-ex)
+* MMEX doc for [Desktop repo](https://github.com/moneymanagerex/moneymanagerex)
+* MMEX doc for [android repo](https://github.com/moneymanagerex/android-money-manager-ex)
+* MMEX4Desktop [repo issues](https://github.com/moneymanagerex/moneymanagerex/issues?q=is%3Aissue+is%3Aclosed)
+* MMEX4Android [repo issues](https://github.com/moneymanagerex/android-money-manager-ex/issues?q=is%3Aissue+is%3Aclosed)
   
 and here are some todos
 * MMEX [forum](https://forum.moneymanagerex.org/)
@@ -22,7 +24,7 @@ and here are some todos
 ##### install `Ollama`
 
 ```
-ollama pull gemma:7b
+ollama pull llama3:8b
 ollama pull nomic-embed-text:latest
 ```
 
@@ -38,6 +40,6 @@ python3 chat.py
 
 ### Stacks 
 * `Ollama` as inference framework
-* `gemema:7b` as LLM, configurable via `MODEL`
-* `nomic-embed-text` as embedding model, configurable via `EMBEDDINGS_MODEL_NAME`
-* `LangChain` as application framework 
+* `llama3:8b` as LLM, configurable via `MODEL`
+* `nomic-embed-text` as an embedding model, configurable via `EMBEDDINGS_MODEL_NAME`
+* `LangChain` as the application framework 
