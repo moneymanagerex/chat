@@ -117,4 +117,5 @@ python3 chat.py
 * `Ollama` as inference framework
 * `llama3:8b` as LLM, configurable via `MODEL`
 * `nomic-embed-text` as an embedding model, configurable via `EMBEDDINGS_MODEL_NAME`
+* `Duckdb` as vector database
 * `LangChain` as the application framework 
